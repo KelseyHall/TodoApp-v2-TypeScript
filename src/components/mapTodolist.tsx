@@ -9,8 +9,16 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { removeToDo, changeStatus } from './functions';
+import { Dispatch, SetStateAction } from 'react';
+import { Todo } from './types';
 
-const MapTodolist = ({ toDo, setTodo }) => {
+const MapTodolist = ({
+  toDo,
+  setTodo,
+}: {
+  toDo: Todo[];
+  setTodo: Dispatch<SetStateAction<Todo[]>>;
+}) => {
   if (toDo.length === 0) {
     return (
       <Typography variant="body1" color="secondary" align="center" mt={3}>
@@ -30,7 +38,7 @@ const MapTodolist = ({ toDo, setTodo }) => {
                   key={id}
                   color="primary"
                   value={id}
-                  onClick={() => removeToDo(id, setTodo)}
+                  onClick={() => removeToDo({ id, setTodo })}
                 >
                   <DeleteIcon />
                 </IconButton>
@@ -42,18 +50,15 @@ const MapTodolist = ({ toDo, setTodo }) => {
                     <Checkbox
                       name={task}
                       checked={completed}
-                      onChange={() => changeStatus(id, setTodo)}
+                      onChange={() => changeStatus({ id, setTodo })}
                       inputProps={{
-                        'aria-label': { task },
+                        'aria-label': task,
                       }}
                       color="secondary"
                     />
                   }
                 </span>
                 <span id="taskItem">{task} </span>
-                {/*<button onClick={() => editTaskName(id, task)}>
-        <EditIcon />
-      </button>*/}
               </p>
             </ListItem>
           </Card>

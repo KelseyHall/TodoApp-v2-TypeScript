@@ -1,10 +1,12 @@
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { Todo, IdSetTodo, ErrorHandler } from './types';
 
-export const removeToDo = (id, setTodo) => {
+export const removeToDo = ({ id, setTodo }: IdSetTodo) => {
   setTodo((toDo) => toDo.filter((each) => each.id !== id));
 };
 
-export const changeStatus = (id, setTodo) => {
+export const changeStatus = ({ id, setTodo }: IdSetTodo) => {
   setTodo((toDo) =>
     toDo.map((each) => {
       if (each.id === id) {
@@ -15,12 +17,16 @@ export const changeStatus = (id, setTodo) => {
   );
 };
 
-export const addTodo = (e, setTodo, setError) => {
-  let task = e.target.elements.newToDo.value.trim();
+export const addTodo = (
+  e: ChangeEvent<HTMLFormElement>,
+  setTodo: Dispatch<SetStateAction<Todo[]>>,
+  setError: Dispatch<ErrorHandler>
+) => {
+  let task = (e.target as HTMLFormElement).newToDo.value.trim();
   e.preventDefault();
 
   if (task.length > 0) {
-    setTodo((todoList) => [
+    setTodo((todoList: Todo[]) => [
       ...todoList,
       {
         id: uuidv4(),
@@ -29,7 +35,7 @@ export const addTodo = (e, setTodo, setError) => {
       },
     ]);
     setError({ error: false, message: '' });
-    e.target.elements.newToDo.value = '';
+    (e.target as HTMLFormElement).newToDo.value = '';
   } else {
     setError({
       error: true,

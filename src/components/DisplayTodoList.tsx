@@ -4,10 +4,11 @@ import { Container, Typography } from '@mui/material';
 import MapTodolist from './mapTodolist';
 import AddNewTodo from './AddNewTodo';
 import SearchFiltering from './SearchFilter';
+import { Todo } from './types';
 
 const DisplayTodoList = () => {
-  const [value, setValue] = useState('');
-  const [toDo, setTodo] = useState(() => {
+  const [value, setValue] = useState<string>('');
+  const [toDo, setTodo] = useState<Todo[]>(() => {
     const getSavedTodos = localStorage.getItem('todoList');
     if (getSavedTodos) {
       return JSON.parse(getSavedTodos);
